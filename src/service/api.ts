@@ -54,3 +54,26 @@ export const runCCode = async (code: string): Promise<RunCodeResponse> => {
     throw error; // Rethrow the error to be handled by the caller
   }
 };
+
+export const runTikZCode = async (code: string): Promise<RunCodeResponse> => {
+  const baseUrl = 'https://tikz-one.vercel.app';
+
+  try {
+    const response = await fetch(`${baseUrl}/api/generate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to run code:', error);
+    throw error;
+  }
+};

@@ -75,22 +75,27 @@ int main() {
 ```
 
 ```tikz
-\begin{tikzpicture}
-  \def \n {5}
-  \def \radius {3cm}
-  \def \margin {8} % margin in angles, depends on the radius
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
 
-  \foreach \s in {1,...,\n}
-  {
-    \node[draw, circle] at ({360/\n * (\s - 1)}:\radius) {$\s$};
-    \draw[->, >=latex] ({360/\n * (\s - 1)+\margin}:\radius)
-      arc ({360/\n * (\s - 1)+\margin}:{360/\n * (\s)-\margin}:\radius);
-  }
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[colormap/viridis]
+\addplot3[
+	surf,
+	samples=18,
+	domain=-3:3
+]
+{exp(-x^2-y^2)*x};
+\end{axis}
 \end{tikzpicture}
+
+\end{document}
 ```
 
 <span
-    class="caption">A dining philosophers diagram drawn using TikZ.
+    class="caption">A diagram drawn using TikZ.
 </span>
 
 #### **Building**

@@ -1,20 +1,27 @@
-import { Pane } from 'evergreen-ui';
-import React, { useEffect, useRef } from 'react';
+import { Pane, Spinner, Text } from 'evergreen-ui';
+import React, { useEffect, useState } from 'react';
+
+import { runTikZCode } from '../service/api';
 
 type TikZProps = {
   tikzScript: string;
 };
 
 const TikZ: React.FC<TikZProps> = ({ tikzScript }) => {
-  const scriptRef = useRef<HTMLScriptElement>(null);
+  const [svg, setSvg] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (scriptRef.current) {
-      scriptRef.current.textContent = tikzScript;
-      (window as Window & { TikZJax?: (element: HTMLScriptElement) => void })?.TikZJax?.(
-        scriptRef.current,
-      );
-    }
+    const runTikZ = async () => {
+      try {
+        const response = await runTikZCode(tikzScript);
+        setSvg(response.output);
+      } catch (error) {
+        setError('Failed to run TikZ code');
+      }
+    };
+
+    runTikZ();
   }, [tikzScript]);
 
   return (
@@ -25,7 +32,13 @@ const TikZ: React.FC<TikZProps> = ({ tikzScript }) => {
       alignItems="center"
       flexGrow={1}
     >
-      <script ref={scriptRef} type="text/tikz"></script>
+      {svg ? (
+        <div dangerouslySetInnerHTML={{ __html: svg }} />
+      ) : error ? (
+        <Text color="red">{error}</Text>
+      ) : (
+        <Spinner />
+      )}
     </Pane>
   );
 };

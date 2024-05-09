@@ -21,14 +21,16 @@ const StaticCodeBlock = ({ code, language }: { code: string; language: string })
         {''}
         {language}
       </Pane>
-      <CopyBlock
-        text={code}
-        language={language}
-        showLineNumbers={false}
-        theme={darkMode ? nord : atomOneLight}
-        startingLineNumber={2}
-        customStyle={{ borderRadius: '0 0 10px 10px' }}
-      />
+      <div className="code-blocks">
+        <CopyBlock
+          text={code}
+          language={language}
+          showLineNumbers={false}
+          theme={darkMode ? nord : atomOneLight}
+          startingLineNumber={2}
+          customStyle={{ borderRadius: '0 0 10px 10px' }}
+        />
+      </div>
     </Pane>
   );
 };

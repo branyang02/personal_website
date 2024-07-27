@@ -2,6 +2,7 @@ import '../styles/Biography.css';
 
 import React from 'react';
 
+import profileImage from '../assets/Brandon_Yang.jpg';
 import Contact from './Contact';
 
 const Biography: React.FC = () => {
@@ -28,10 +29,7 @@ const Biography: React.FC = () => {
         <Contact />
       </div>
       <div className="biography-image">
-        <img
-          src={'https://branyang02.github.io/images/Brandon_Yang.jpg'}
-          alt="Brandon Yang"
-        />
+        <img src={profileImage} alt="Brandon Yang" />
       </div>
     </div>
   );
